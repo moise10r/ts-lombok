@@ -1,0 +1,70 @@
+{
+  "name": "lombokx-ts",
+  "version": "0.1.1",
+  "description": "TypeScript library providing Lombok-style decorators via compile-time AST transformers",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./markers": {
+      "types": "./markers/index.d.ts",
+      "default": "./markers/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "markers"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean && npm run build && npm test"
+  },
+  "keywords": [
+    "typescript",
+    "lombok",
+    "decorator",
+    "transformer",
+    "ast",
+    "ts-patch",
+    "record",
+    "value",
+    "immutable",
+    "getter",
+    "setter",
+    "builder",
+    "data",
+    "equals",
+    "hashcode",
+    "singleton",
+    "boilerplate"
+  ],
+  "author": "moise10r",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moise10r/ts-lombok.git"
+  },
+  "bugs": {
+    "url": "https://github.com/moise10r/ts-lombok/issues"
+  },
+  "homepage": "https://github.com/moise10r/ts-lombok#readme",
+  "peerDependencies": {
+    "typescript": ">=4.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ts-patch": "^3.0.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
