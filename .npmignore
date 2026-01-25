@@ -1,0 +1,29 @@
+# Source files (dist is published)
+src/
+
+# Tests
+tests/
+
+# Config files
+tsconfig.json
+vitest.config.ts
+.gitignore
+
+# Development
+.git/
+.github/
+node_modules/
+coverage/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docs (README is published)
+CONTRIBUTING.md
