@@ -1,6 +1,6 @@
-# Contributing to lombokx-ts
+# Contributing to ts-lombok-kit
 
-Thank you for your interest in contributing to lombokx-ts!
+Thank you for your interest in contributing to ts-lombok-kit!
 
 ## Getting Started
 
@@ -62,7 +62,7 @@ ts-lombok/
 ## Reporting Issues
 
 When reporting issues, please include:
-- lombokx-ts version
+- ts-lombok-kit version
 - TypeScript version
 - Node.js version
 - Minimal reproduction code

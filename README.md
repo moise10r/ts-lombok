@@ -16,7 +16,7 @@ TypeScript library providing Lombok-style decorators via compile-time AST transf
 ## Installation
 
 ```bash
-npm install lombokx-ts ts-patch
+npm install ts-lombok-kit ts-patch
 ```
 
 ### Setup ts-patch
@@ -43,7 +43,7 @@ npm run prepare
 {
   "compilerOptions": {
     "plugins": [
-      { "transform": "lombokx-ts" }
+      { "transform": "ts-lombok-kit" }
     ]
   }
 }
@@ -54,7 +54,7 @@ npm run prepare
 Import decorators from `ts-lombok/markers`:
 
 ```typescript
-import { Record, Data, Builder, Getter, Setter } from 'lombokx-ts/markers';
+import { Record, Data, Builder, Getter, Setter } from 'ts-lombok-kit/markers';
 ```
 
 ---

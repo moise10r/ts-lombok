@@ -1,5 +1,5 @@
 {
-  "name": "lombokx-ts",
+  "name": "ts-lombok-kit",
   "version": "0.1.1",
   "description": "TypeScript library providing Lombok-style decorators via compile-time AST transformers",
   "main": "dist/index.js",
