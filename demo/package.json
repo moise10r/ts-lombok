@@ -1,0 +1,19 @@
+{
+  "name": "ts-lombok-kit-demo",
+  "version": "1.0.0",
+  "description": "Demo project to test ts-lombok-kit decorators",
+  "main": "dist/index.js",
+  "scripts": {
+    "prepare": "ts-patch install -s",
+    "build": "tspc",
+    "start": "node dist/index.js",
+    "demo": "npm run build && npm run start"
+  },
+  "dependencies": {
+    "ts-lombok-kit": "file:.."
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0",
+    "ts-patch": "^3.1.0"
+  }
+}

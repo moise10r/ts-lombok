@@ -12,6 +12,7 @@ import {
 } from '../utils/decorator-utils';
 import { generateConstructor } from '../generators/constructor-generator';
 import { generateFreezeStatement } from '../generators/freeze-generator';
+import { generateBuilderClass } from '../generators/method-generator';
 
 /**
  * Creates a visitor function that transforms class declarations.
@@ -22,12 +23,12 @@ export function createVisitor(
 ): ts.Visitor {
   const factory = tsContext.factory;
 
-  const visitor: ts.Visitor = (node: ts.Node): ts.Node => {
+  const visitor: ts.Visitor = (node: ts.Node): ts.Node | ts.Node[] => {
     // Process class declarations
     if (ts.isClassDeclaration(node)) {
-      const transformed = transformClass(factory, context, node);
-      if (transformed) {
-        return transformed;
+      const result = transformClassWithAdditionalStatements(factory, context, node);
+      if (result) {
+        return result;
       }
     }
 
@@ -39,13 +40,13 @@ export function createVisitor(
 }
 
 /**
- * Transforms a class declaration if it has relevant decorators.
+ * Transforms a class and returns it along with any additional statements (like Builder class).
  */
-function transformClass(
+function transformClassWithAdditionalStatements(
   factory: ts.NodeFactory,
   context: TransformationContext,
   node: ts.ClassDeclaration
-): ts.ClassDeclaration | undefined {
+): ts.Node[] | undefined {
   // Get decorators we handle
   const decorators = getKnownDecorators(node);
 
@@ -69,8 +70,19 @@ function transformClass(
   }
 
   // Execute the transformation
-  return executeTransformation(factory, plan, handlers, node);
+  const transformedClass = executeTransformation(factory, plan, handlers, node);
+
+  // Collect additional statements (like Builder class)
+  const result: ts.Node[] = [transformedClass];
+
+  if (plan.generateBuilder) {
+    const builderClass = generateBuilderClass(factory, plan);
+    result.push(builderClass);
+  }
+
+  return result;
 }
+
 
 /**
  * Executes the transformation based on the plan.

@@ -338,6 +338,131 @@ export function generateBuilder(
 }
 
 /**
+ * Generates the Builder class declaration.
+ *
+ * Example output for class User { id: number; name: string; }:
+ *
+ * class UserBuilder {
+ *   private _id: number;
+ *   private _name: string;
+ *
+ *   id(id: number): UserBuilder {
+ *     this._id = id;
+ *     return this;
+ *   }
+ *
+ *   name(name: string): UserBuilder {
+ *     this._name = name;
+ *     return this;
+ *   }
+ *
+ *   build(): User {
+ *     return new User(this._id, this._name);
+ *   }
+ * }
+ */
+export function generateBuilderClass(
+  factory: ts.NodeFactory,
+  plan: TransformationPlan
+): ts.ClassDeclaration {
+  const builderClassName = `${plan.className}Builder`;
+  const members: ts.ClassElement[] = [];
+
+  // Generate private fields for each property
+  for (const prop of plan.properties) {
+    const field = factory.createPropertyDeclaration(
+      [factory.createModifier(ts.SyntaxKind.PrivateKeyword)],
+      factory.createIdentifier(`_${prop.name}`),
+      undefined,
+      prop.type,
+      undefined
+    );
+    members.push(field);
+  }
+
+  // Generate fluent setter methods for each property
+  for (const prop of plan.properties) {
+    const setterMethod = factory.createMethodDeclaration(
+      undefined,
+      undefined,
+      factory.createIdentifier(prop.name),
+      undefined,
+      undefined,
+      [
+        factory.createParameterDeclaration(
+          undefined,
+          undefined,
+          factory.createIdentifier(prop.name),
+          undefined,
+          prop.type,
+          undefined
+        )
+      ],
+      factory.createTypeReferenceNode(factory.createIdentifier(builderClassName), undefined),
+      factory.createBlock(
+        [
+          // this._field = field;
+          factory.createExpressionStatement(
+            factory.createBinaryExpression(
+              factory.createPropertyAccessExpression(
+                factory.createThis(),
+                factory.createIdentifier(`_${prop.name}`)
+              ),
+              factory.createToken(ts.SyntaxKind.EqualsToken),
+              factory.createIdentifier(prop.name)
+            )
+          ),
+          // return this;
+          factory.createReturnStatement(factory.createThis())
+        ],
+        true
+      )
+    );
+    members.push(setterMethod);
+  }
+
+  // Generate build() method
+  const constructorArgs = plan.properties.map(prop =>
+    factory.createPropertyAccessExpression(
+      factory.createThis(),
+      factory.createIdentifier(`_${prop.name}`)
+    )
+  );
+
+  const buildMethod = factory.createMethodDeclaration(
+    undefined,
+    undefined,
+    factory.createIdentifier('build'),
+    undefined,
+    undefined,
+    [],
+    factory.createTypeReferenceNode(factory.createIdentifier(plan.className), undefined),
+    factory.createBlock(
+      [
+        factory.createReturnStatement(
+          factory.createNewExpression(
+            factory.createIdentifier(plan.className),
+            undefined,
+            constructorArgs
+          )
+        )
+      ],
+      true
+    )
+  );
+  members.push(buildMethod);
+
+  // Create the Builder class
+  return factory.createClassDeclaration(
+    undefined,
+    factory.createIdentifier(builderClassName),
+    undefined,
+    undefined,
+    members
+  );
+}
+
+/**
  * Generates singleton pattern implementation.
  *
  * Generates:
