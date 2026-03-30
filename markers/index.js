@@ -25,35 +25,11 @@ exports.NonNull = NonNull;
 exports.validateNonNull = validateNonNull;
 exports.Log = Log;
 exports.Singleton = Singleton;
-exports.Memoize = Memoize;
-exports.Autobind = Autobind;
 // =============================================================================
 // Helper Functions
 // =============================================================================
 function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
-}
-function getPropertyNames(obj) {
-    const props = [];
-    for (const key in obj) {
-        if (Object.prototype.hasOwnProperty.call(obj, key) && typeof obj[key] !== 'function') {
-            props.push(key);
-        }
-    }
-    return props;
-}
-function getClassPropertyNames(cls) {
-    // Get property names from class prototype and instance
-    const instance = Object.create(cls.prototype);
-    const props = [];
-    // Check for property declarations in the class
-    const descriptors = Object.getOwnPropertyDescriptors(cls.prototype);
-    for (const key of Object.keys(descriptors)) {
-        if (key !== 'constructor' && typeof descriptors[key].value !== 'function') {
-            props.push(key);
-        }
-    }
-    return props;
 }
 function Record(target) {
     const propNames = Object.getOwnPropertyNames(new target()).filter(p => p !== 'constructor' && typeof target.prototype[p] !== 'function');
@@ -269,16 +245,4 @@ function Singleton(target) {
         return instance;
     };
     return target;
-}
-// =============================================================================
-// @Memoize - Cache method results (stub - implemented by transformer)
-// =============================================================================
-function Memoize(target, propertyKey, descriptor) {
-    return descriptor;
-}
-// =============================================================================
-// @Autobind - Bind method to instance (stub - implemented by transformer)
-// =============================================================================
-function Autobind(target, propertyKey, descriptor) {
-    return descriptor;
 }

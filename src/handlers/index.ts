@@ -359,12 +359,8 @@ export class HandlerRegistry {
     this.register(new SingletonHandler());
   }
 
-  register(handler: DecoratorHandler): void {
+  private register(handler: DecoratorHandler): void {
     this.handlers.set(handler.decoratorName, handler);
-  }
-
-  get(decoratorName: string): DecoratorHandler | undefined {
-    return this.handlers.get(decoratorName);
   }
 
   getHandlersForDecorators(decoratorNames: string[]): DecoratorHandler[] {
@@ -374,10 +370,6 @@ export class HandlerRegistry {
 
     // Sort by priority (higher priority first)
     return handlers.sort((a, b) => b.priority - a.priority);
-  }
-
-  has(decoratorName: string): boolean {
-    return this.handlers.has(decoratorName);
   }
 }
 

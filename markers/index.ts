@@ -14,10 +14,6 @@
 
 type Constructor<T = {}> = new (...args: any[]) => T;
 
-type PropertyKeys<T> = {
-  [K in keyof T]: T[K] extends Function ? never : K;
-}[keyof T];
-
 type Capitalize<S extends string> = S extends `${infer F}${infer R}` ? `${Uppercase<F>}${R}` : S;
 
 // =============================================================================
@@ -78,31 +74,6 @@ function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-function getPropertyNames<T>(obj: T): string[] {
-  const props: string[] = [];
-  for (const key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key) && typeof (obj as any)[key] !== 'function') {
-      props.push(key);
-    }
-  }
-  return props;
-}
-
-function getClassPropertyNames(cls: Constructor): string[] {
-  // Get property names from class prototype and instance
-  const instance = Object.create(cls.prototype);
-  const props: string[] = [];
-
-  // Check for property declarations in the class
-  const descriptors = Object.getOwnPropertyDescriptors(cls.prototype);
-  for (const key of Object.keys(descriptors)) {
-    if (key !== 'constructor' && typeof descriptors[key].value !== 'function') {
-      props.push(key);
-    }
-  }
-
-  return props;
-}
 
 // =============================================================================
 // @Record / @Value - Immutable data carrier
@@ -462,26 +433,3 @@ export function Singleton<T extends Constructor>(target: T): SingletonClass<T> {
   return target as any;
 }
 
-// =============================================================================
-// @Memoize - Cache method results (stub - implemented by transformer)
-// =============================================================================
-
-export function Memoize(
-  target: any,
-  propertyKey: string,
-  descriptor: PropertyDescriptor
-): PropertyDescriptor {
-  return descriptor;
-}
-
-// =============================================================================
-// @Autobind - Bind method to instance (stub - implemented by transformer)
-// =============================================================================
-
-export function Autobind(
-  target: any,
-  propertyKey: string,
-  descriptor: PropertyDescriptor
-): PropertyDescriptor {
-  return descriptor;
-}

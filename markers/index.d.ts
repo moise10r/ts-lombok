@@ -91,6 +91,4 @@ type LogClass<T extends Constructor> = Constructor<InstanceType<T> & LogMixin> &
 export declare function Log<T extends Constructor>(target: T): LogClass<T>;
 type SingletonClass<T extends Constructor> = T & SingletonStatic<InstanceType<T>>;
 export declare function Singleton<T extends Constructor>(target: T): SingletonClass<T>;
-export declare function Memoize(target: any, propertyKey: string, descriptor: PropertyDescriptor): PropertyDescriptor;
-export declare function Autobind(target: any, propertyKey: string, descriptor: PropertyDescriptor): PropertyDescriptor;
 export {};

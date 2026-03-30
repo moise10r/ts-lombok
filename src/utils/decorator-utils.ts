@@ -19,24 +19,8 @@ export const KNOWN_CLASS_DECORATORS = [
  */
 export const KNOWN_PROPERTY_DECORATORS = ['NonNull', 'Getter', 'Setter'] as const;
 
-/**
- * Known method decorator names.
- */
-export const KNOWN_METHOD_DECORATORS = ['Memoize', 'Autobind'] as const;
-
-/**
- * All known decorators combined.
- */
-export const KNOWN_DECORATORS = [
-  ...KNOWN_CLASS_DECORATORS,
-  ...KNOWN_PROPERTY_DECORATORS,
-  ...KNOWN_METHOD_DECORATORS
-] as const;
-
 export type KnownClassDecorator = typeof KNOWN_CLASS_DECORATORS[number];
 export type KnownPropertyDecorator = typeof KNOWN_PROPERTY_DECORATORS[number];
-export type KnownMethodDecorator = typeof KNOWN_METHOD_DECORATORS[number];
-export type KnownDecorator = typeof KNOWN_DECORATORS[number];
 
 /**
  * Checks if a node has a specific decorator.
@@ -79,14 +63,6 @@ export function getDecoratorName(decorator: ts.Decorator): string | undefined {
 export function isKnownDecorator(decorator: ts.Decorator): boolean {
   const name = getDecoratorName(decorator);
   return name !== undefined && KNOWN_CLASS_DECORATORS.includes(name as KnownClassDecorator);
-}
-
-/**
- * Checks if a decorator is a known property decorator.
- */
-export function isKnownPropertyDecorator(decorator: ts.Decorator): boolean {
-  const name = getDecoratorName(decorator);
-  return name !== undefined && KNOWN_PROPERTY_DECORATORS.includes(name as KnownPropertyDecorator);
 }
 
 /**
@@ -178,35 +154,10 @@ export function getClassProperties(node: ts.ClassDeclaration): PropertyInfo[] {
 }
 
 /**
- * Gets only required properties (not optional, no initializer).
- */
-export function getRequiredProperties(properties: PropertyInfo[]): PropertyInfo[] {
-  return properties.filter(p => !p.isOptional && !p.hasInitializer);
-}
-
-/**
- * Gets properties marked with @NonNull.
- */
-export function getNonNullProperties(properties: PropertyInfo[]): PropertyInfo[] {
-  return properties.filter(p => p.isNonNull);
-}
-
-/**
  * Checks if a class has an existing constructor.
  */
 export function hasConstructor(node: ts.ClassDeclaration): boolean {
   return node.members.some(m => ts.isConstructorDeclaration(m));
-}
-
-/**
- * Gets the existing constructor from a class if it exists.
- */
-export function getConstructor(
-  node: ts.ClassDeclaration
-): ts.ConstructorDeclaration | undefined {
-  return node.members.find(
-    (m): m is ts.ConstructorDeclaration => ts.isConstructorDeclaration(m)
-  );
 }
 
 /**

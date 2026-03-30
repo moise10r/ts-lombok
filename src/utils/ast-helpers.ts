@@ -58,29 +58,6 @@ export function createFreezeStatement(factory: ts.NodeFactory): ts.ExpressionSta
 }
 
 /**
- * Creates a readonly property declaration.
- */
-export function createReadonlyProperty(
-  factory: ts.NodeFactory,
-  name: string,
-  type?: ts.TypeNode,
-  modifiers?: ts.Modifier[]
-): ts.PropertyDeclaration {
-  const allModifiers = [
-    factory.createModifier(ts.SyntaxKind.ReadonlyKeyword),
-    ...(modifiers || [])
-  ];
-
-  return factory.createPropertyDeclaration(
-    allModifiers,
-    factory.createIdentifier(name),
-    undefined,
-    type,
-    undefined
-  );
-}
-
-/**
  * Creates a method declaration.
  */
 export function createMethodDeclaration(
