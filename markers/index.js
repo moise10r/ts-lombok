@@ -163,7 +163,16 @@ function AllArgsConstructor(target, _context) {
     return newClass;
 }
 function RequiredArgsConstructor(target, _context) {
-    return AllArgsConstructor(target);
+    const instance = new target();
+    const requiredProps = getProps(target).filter(k => instance[k] === undefined);
+    const newClass = class extends target {
+        constructor(...args) {
+            super();
+            requiredProps.forEach((name, index) => { this[name] = args[index]; });
+        }
+    };
+    Object.defineProperty(newClass, 'name', { value: target.name });
+    return newClass;
 }
 const nonNullProperties = new WeakMap();
 function NonNull(target, propertyKeyOrContext) {
