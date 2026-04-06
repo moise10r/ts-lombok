@@ -62,9 +62,12 @@ type SingletonReturn<T extends Constructor> = T & {
 type NoArgsReturn<T extends Constructor> = {
     new (): InstanceType<T>;
 } & T;
+type StaticMembers<T> = {
+    [K in keyof T]: T[K];
+};
 type AllArgsReturn<T extends Constructor> = {
     new (...args: any[]): InstanceType<T>;
-} & T;
+} & StaticMembers<T>;
 export declare function Record<T extends Constructor>(target: T, context: ClassDecoratorContext<T>): RecordReturn<T>;
 export declare function Record<T extends Constructor>(target: T): RecordReturn<T>;
 export declare const Value: typeof Record;

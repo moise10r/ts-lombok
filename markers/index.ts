@@ -67,8 +67,10 @@ type SingletonReturn<T extends Constructor> =
 type NoArgsReturn<T extends Constructor> =
   { new (): InstanceType<T> } & T;
 
+type StaticMembers<T> = { [K in keyof T]: T[K] };
+
 type AllArgsReturn<T extends Constructor> =
-  { new (...args: any[]): InstanceType<T> } & T;
+  { new (...args: any[]): InstanceType<T> } & StaticMembers<T>;
 
 function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
