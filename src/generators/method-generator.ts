@@ -107,7 +107,11 @@ export function generateEquals(
     undefined,
     factory.createIdentifier(otherParam),
     undefined,
-    factory.createTypeReferenceNode(factory.createIdentifier(plan.className), undefined),
+    factory.createUnionTypeNode([
+      factory.createTypeReferenceNode(factory.createIdentifier(plan.className), undefined),
+      factory.createLiteralTypeNode(factory.createNull()),
+      factory.createKeywordTypeNode(ts.SyntaxKind.UndefinedKeyword),
+    ]),
     undefined
   );
 
@@ -368,12 +372,12 @@ export function generateBuilderClass(
   const builderClassName = `${plan.className}Builder`;
   const members: ts.ClassElement[] = [];
 
-  // Generate private fields for each property
+  // Generate private fields for each property (with ! to satisfy strictPropertyInitialization)
   for (const prop of plan.properties) {
     const field = factory.createPropertyDeclaration(
       [factory.createModifier(ts.SyntaxKind.PrivateKeyword)],
       factory.createIdentifier(`_${prop.name}`),
-      undefined,
+      factory.createToken(ts.SyntaxKind.ExclamationToken),
       prop.type,
       undefined
     );

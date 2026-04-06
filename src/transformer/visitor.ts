@@ -98,6 +98,12 @@ function executeTransformation(
   // Transform existing properties to readonly if needed and strip property decorators
   for (const member of originalClass.members) {
     if (ts.isPropertyDeclaration(member)) {
+      // Strip `declare log: Console` when @Log will generate the field
+      if (plan.generateLog && ts.isIdentifier(member.name) && member.name.text === 'log') {
+        const modifiers = ts.getModifiers(member) ?? [];
+        const isDeclare = modifiers.some(m => m.kind === ts.SyntaxKind.DeclareKeyword);
+        if (isDeclare) continue;
+      }
       let transformed = stripPropertyDecorators(factory, member);
       if (plan.makeReadonly) {
         transformed = makePropertyReadonly(factory, transformed);

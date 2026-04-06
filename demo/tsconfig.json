@@ -1,31 +1,16 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "ES2022",
     "module": "commonjs",
-    "lib": ["ES2020"],
+    "lib": ["ES2022"],
     "outDir": "./dist",
     "rootDir": "./src",
-
-    // Standard strict settings
     "strict": true,
-
-    // Required for ts-lombok-kit:
-    // TypeScript's type checker runs BEFORE the transformer adds constructors,
-    // so it can't see the generated constructor parameters or methods.
-    // This is a fundamental limitation of TypeScript decorators.
-    "strictPropertyInitialization": false,
-    "noEmitOnError": false,
-
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "declaration": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
     "plugins": [
-      {
-        "transform": "ts-lombok-kit"
-      }
+      { "transform": "ts-lombok-kit", "transformProgram": true, "import": "programTransformer" }
     ]
   },
   "include": ["src/**/*"],

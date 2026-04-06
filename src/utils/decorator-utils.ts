@@ -123,10 +123,11 @@ export function getClassProperties(node: ts.ClassDeclaration): PropertyInfo[] {
     if (ts.isPropertyDeclaration(member) && ts.isIdentifier(member.name)) {
       const modifiers = ts.getModifiers(member) || [];
       const propertyDecorators = ts.getDecorators(member) || [];
-      const isStatic = modifiers.some(m => m.kind === ts.SyntaxKind.StaticKeyword);
+      const isStatic   = modifiers.some(m => m.kind === ts.SyntaxKind.StaticKeyword);
+      const isDeclare  = modifiers.some(m => m.kind === ts.SyntaxKind.DeclareKeyword);
 
-      // Skip static properties
-      if (isStatic) {
+      // Skip static and ambient `declare` properties — they have no runtime representation
+      if (isStatic || isDeclare) {
         continue;
       }
 

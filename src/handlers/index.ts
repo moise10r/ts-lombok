@@ -284,7 +284,7 @@ export class RequiredArgsConstructorHandler implements DecoratorHandler {
 
   modifyPlan(plan: TransformationPlan): void {
     plan.generateConstructor = true;
-    plan.constructorType = 'required';
+    plan.constructorType = 'all';
   }
 
   generateMembers(): ts.ClassElement[] {

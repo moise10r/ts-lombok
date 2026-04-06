@@ -1,19 +1,16 @@
 {
   "name": "ts-lombok-kit-demo",
   "version": "1.0.0",
-  "description": "Demo project to test ts-lombok-kit decorators",
-  "main": "dist/index.js",
+  "description": "Demo project showing all ts-lombok-kit factory functions in action",
   "scripts": {
-    "prepare": "ts-patch install -s",
     "build": "tspc",
-    "start": "node dist/index.js",
-    "demo": "npm run build && npm run start"
+    "run:all": "tspc && node -e \"require('fs').readdirSync('dist/decorators').sort().forEach(f => { console.log('\\n===== ' + f + ' ====='); require('./dist/decorators/' + f); })\""
   },
   "dependencies": {
     "ts-lombok-kit": "file:.."
   },
   "devDependencies": {
-    "typescript": "^5.3.0",
-    "ts-patch": "^3.1.0"
+    "ts-patch": "^3.3.0",
+    "typescript": "^5.3.0"
   }
 }
