@@ -157,7 +157,7 @@ describe('transformer integration', () => {
       const output = transform(input);
 
       // Should have equals method
-      expect(output).toContain('equals(other: Point)');
+      expect(output).toContain('equals(other: Point | null | undefined)');
       expect(output).toContain('boolean');
       expect(output).toContain('other == null');
       expect(output).toContain('this === other');
@@ -234,7 +234,7 @@ describe('transformer integration', () => {
       expect(output).toContain('toString()');
 
       // From @Equals
-      expect(output).toContain('equals(other: User)');
+      expect(output).toContain('equals(other: User | null | undefined)');
       expect(output).toContain('hashCode()');
     });
   });

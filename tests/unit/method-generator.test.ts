@@ -124,7 +124,7 @@ describe('method-generator', () => {
       const method = generateEquals(factory, plan);
       const output = printNode(method);
 
-      expect(output).toContain('equals(other: User)');
+      expect(output).toContain('equals(other: User | null | undefined)');
       expect(output).toContain('boolean');
       expect(output).toContain('other == null');
       expect(output).toContain('return false');

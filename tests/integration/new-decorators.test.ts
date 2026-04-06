@@ -124,7 +124,7 @@ describe('new decorators integration', () => {
       expect(output).toContain('toString()');
 
       // Should have equals
-      expect(output).toContain('equals(other: User)');
+      expect(output).toContain('equals(other: User | null | undefined)');
 
       // Should have hashCode
       expect(output).toContain('hashCode()');

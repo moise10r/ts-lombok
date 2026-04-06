@@ -253,7 +253,16 @@ export function AllArgsConstructor<T extends Constructor>(target: T, _context?: 
 export function RequiredArgsConstructor<T extends Constructor>(target: T, context: ClassDecoratorContext<T>): AllArgsReturn<T>;
 export function RequiredArgsConstructor<T extends Constructor>(target: T): AllArgsReturn<T>;
 export function RequiredArgsConstructor<T extends Constructor>(target: T, _context?: any): AllArgsReturn<T> {
-  return AllArgsConstructor(target);
+  const instance = new (target as any)();
+  const requiredProps = getProps(target).filter(k => (instance as any)[k] === undefined);
+  const newClass = class extends (target as Constructor<any>) {
+    constructor(...args: any[]) {
+      super();
+      requiredProps.forEach((name, index) => { (this as any)[name] = args[index]; });
+    }
+  };
+  Object.defineProperty(newClass, 'name', { value: target.name });
+  return newClass as any;
 }
 
 const nonNullProperties = new WeakMap<object, Set<string>>();
