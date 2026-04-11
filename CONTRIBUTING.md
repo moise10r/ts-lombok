@@ -1,4 +1,4 @@
-# Contributing to ts-lombok-kit
+# Contributing to ts-lombok-kit.
 
 Thank you for your interest in contributing to ts-lombok-kit!
 
