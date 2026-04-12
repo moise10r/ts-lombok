@@ -1,4 +1,4 @@
-# ts-lombok.
+# ts-lombok
 
 TypeScript library providing Lombok-style decorators via compile-time AST transformers.
 
